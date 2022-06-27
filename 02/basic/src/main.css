@@ -1,0 +1,10 @@
+body {
+  margin: 0;
+}
+
+/* scroll 방지를 위해 position 고정 */
+#three-canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+}

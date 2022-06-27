@@ -7,9 +7,8 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 // renderer.domElement : renderer가 갖고 있는 캔버스
 document.body.appendChild(renderer.domElement); // dom 조립 또는 html 내 canvas 태그 내 붙이기 (활용범위가 더 넓음)
 */
-
-const canvas = document.getElementById("three-canvas");
-const renderer = new THREE.WebGLRenderer({ canvas: canvas });
+const canvas = document.querySelector("#three-canvas");
+const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 // Scene
@@ -23,5 +22,19 @@ const camera = new THREE.PerspectiveCamera(
   1000 // far
 );
 
+camera.position.x = 1;
 camera.position.z = 5;
+camera.position.y = 2;
 scene.add(camera);
+
+// Mesh
+const geometry = new THREE.BoxGeometry(1, 1, 1);
+const material = new THREE.MeshBasicMaterial({
+  color: "#BA55D3",
+});
+
+const mesh = new THREE.Mesh(geometry, material);
+scene.add(mesh);
+
+// render
+renderer.render(scene, camera);

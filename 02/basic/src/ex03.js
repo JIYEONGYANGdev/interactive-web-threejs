@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-export default function example02() {
+export default function example03() {
   /* 동적으로 캔버스 조립하기 
 // set renderer
 const renderer = new THREE.WebGLRenderer();
@@ -9,8 +9,14 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement); // dom 조립 또는 html 내 canvas 태그 내 붙이기 (활용범위가 더 넓음)
 */
   const canvas = document.querySelector("#three-canvas");
-  const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+  const renderer = new THREE.WebGLRenderer({
+    canvas: canvas,
+    antialias: true,
+    alpha: true,
+  });
   renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setClearColor("#00ff00");
+  renderer.setClearAlpha(0.5); // 0~1 불투명도
 
   // Scene
   const scene = new THREE.Scene();
@@ -24,26 +30,8 @@ document.body.appendChild(renderer.domElement); // dom 조립 또는 html 내 ca
   );
 
   camera.position.x = 1;
-  camera.position.z = 5;
-  camera.position.y = 2;
-
-  /* Orthographic Camera 직교 카메라 - 롤 같은 게임에서 보는 뷰 */
-  // const camera = new THREE.OrthographicCamera(
-  //   -(window.innerWidth / window.innerHeight), // 절두체의 left
-  //   window.innerWidth / window.innerHeight, // right
-  //   1, // top
-  //   -1, // bottom
-  //   0.1,
-  //   1000
-  // );
-
-  camera.position.x = 1;
   camera.position.y = 2;
   camera.position.z = 5; // z를 조정하면 perspective camera 와 다름, zoom을 조정 (+updateProjectMatrix )
-
-  // camera.lookAt(0, 0, 0); // xyz로 정의된 position을 바라봄
-  // camera.zoom = 0.5; // zoom out
-  // camera.updateProjectionMatrix(); // 카메라 속성 update
 
   scene.add(camera);
 
@@ -59,7 +47,7 @@ document.body.appendChild(renderer.domElement); // dom 조립 또는 html 내 ca
   // render
   renderer.render(scene, camera);
   // console.log(window.devicePixelRatio);
-  renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1); // 2배 정도면 고해상도 출력
+  // renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1); // 2배 정도면 고해상도 출력
 
   function setSize() {
     // fix camera

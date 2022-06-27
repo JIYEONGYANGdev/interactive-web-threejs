@@ -1,2 +1,5 @@
-02/basic/node_modules/
-02/basic_fin/
+.DS_Store
+.idea/
+.vscode/
+
+**/node_modules

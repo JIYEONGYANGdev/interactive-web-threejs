@@ -58,14 +58,18 @@ document.body.appendChild(renderer.domElement); // dom 조립 또는 html 내 ca
   // 애니메이션 성능보정 - clock 사용
   const clock = new THREE.Clock();
 
+  // 시간차 계산할 기준
+  let oldTime = Date.now();
+
   // render
   function draw() {
-    // console.log(clock.getElapsedTime());
+    // use javascript Date()
+    const newTime = Date.now();
+    const deltaTime = newTime - oldTime;
+    oldTime = newTime;
 
-    const delta = clock.getDelta(); // 실행 간격 시간 차(draw가 실행되는 시간 간격 차), getElapsedTime과 둘 다 같이 사용하지 않는 것이 좋음.
-
-    mesh.rotation.y += 2 * delta; // delta는 실행간격이므로 더해줘야 함
-    mesh.position.y += delta; // exchange radian to degree
+    mesh.rotation.y += deltaTime * 0.005;
+    mesh.position.y += deltaTime * 0.001;
 
     if (mesh.position.y > 3) {
       mesh.position.y = 0;

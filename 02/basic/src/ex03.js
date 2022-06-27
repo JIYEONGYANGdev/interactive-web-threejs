@@ -14,12 +14,16 @@ document.body.appendChild(renderer.domElement); // dom 조립 또는 html 내 ca
     antialias: true,
     alpha: true,
   });
+
+  // renderer로 배경 지정하는 방법
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setClearColor("#00ff00");
   renderer.setClearAlpha(0.5); // 0~1 불투명도
 
   // Scene
   const scene = new THREE.Scene();
+  // scene으로 배경 지정하는 법
+  scene.background = new THREE.Color("blue");
 
   // Camera
   const camera = new THREE.PerspectiveCamera(

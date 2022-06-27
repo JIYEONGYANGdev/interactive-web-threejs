@@ -62,11 +62,9 @@ document.body.appendChild(renderer.domElement); // dom 조립 또는 html 내 ca
   function draw() {
     // console.log(clock.getElapsedTime());
 
-    const time = clock.getElapsedTime(); //실행시점으로부터 총 시간
+    const delta = clock.getDelta(); // 실행 간격 시간 차(draw가 실행되는 시간 간격 차), getElapsedTime과 둘 다 같이 사용하지 않는 것이 좋음.
 
-    // mesh.rotation.y += 0.1; // radian 각도값. 360° === 2π
-    // mesh.rotation.y += THREE.MathUtils.degToRad(1); // exchange radian to degree
-    mesh.rotation.y = 2 * time; // 애니메이션이 딱딱하게 분리되어 보일 순 있으나 (1초에 10번 찍히는 성능 vs 1초에 5번만 찍히는 성능) 동일한 시간에 동일한 거리를 가는 것은 보장이 됨(속도)
+    mesh.rotation.y += 2 * delta; // delta는 실행간격이므로 더해줘야 함
     mesh.position.y += 0.01; // exchange radian to degree
 
     if (mesh.position.y > 3) {

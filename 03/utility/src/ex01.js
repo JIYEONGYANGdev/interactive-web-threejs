@@ -22,14 +22,27 @@ export default function example() {
     0.1,
     1000
   );
-  camera.position.z = 5;
+  camera.position.x = 1;
+  camera.position.y = 3;
+  camera.position.z = 0;
   scene.add(camera);
 
   // Light
-  const light = new THREE.DirectionalLight(0xffffff, 1);
-  light.position.x = 1;
-  light.position.z = 2;
-  scene.add(light);
+  const ambientLight = new THREE.AmbientLight("white", 0.5); // 전체적으로 은은한 조명
+  scene.add(ambientLight);
+
+  const directionalLight = new THREE.DirectionalLight("white", 1);
+  directionalLight.position.x = 1;
+  directionalLight.position.z = 2;
+  scene.add(directionalLight);
+
+  // AxesHelper
+  const axesHelper = new THREE.AxesHelper(3);
+  scene.add(axesHelper);
+
+  // GridHelper
+  const gridHelper = new THREE.GridHelper();
+  scene.add(gridHelper);
 
   // Mesh
   const geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -37,7 +50,10 @@ export default function example() {
     color: "seagreen",
   });
   const mesh = new THREE.Mesh(geometry, material);
+  mesh.position.x = 2;
+  mesh.position.z = 2;
   scene.add(mesh);
+  camera.lookAt(mesh.position); // mesh 를 바라보게끔. (mesh position 정의 후)
 
   // 그리기
   const clock = new THREE.Clock();

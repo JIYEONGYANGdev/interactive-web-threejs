@@ -43,18 +43,27 @@ export default function example() {
     color: "orange",
   });
 
+  const materialOfEarth = new THREE.MeshStandardMaterial({
+    color: "seagreen",
+  });
+
+  const materialOfMoon = new THREE.MeshStandardMaterial({
+    color: "lightgray",
+  });
+
   const group1 = new THREE.Group();
   const sun = new THREE.Mesh(geometry, material);
 
   const group2 = new THREE.Group();
-  // const Earth = new THREE.Mesh(geometry, material);
-  const earth = sun.clone();
+  const earth = new THREE.Mesh(geometry, materialOfEarth);
+  // const earth = sun.clone();
   earth.scale.set(0.3, 0.3, 0.3);
   group2.position.x = 2;
 
   // const group3 = new THREE.Object#D();
   const group3 = new THREE.Group();
-  const moon = earth.clone();
+  const moon = new THREE.Mesh(geometry, materialOfMoon);
+  // const moon = earth.clone();
   moon.scale.set(0.15, 0.15, 0.15); // 참조한 원본대비 비율임
   moon.position.x = 0.5;
 

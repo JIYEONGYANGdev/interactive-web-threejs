@@ -55,6 +55,7 @@ document.body.appendChild(renderer.domElement); // dom 조립 또는 html 내 ca
   });
 
   const mesh = new THREE.Mesh(geometry, material);
+
   scene.add(mesh);
 
   // 애니메이션 성능보정 - clock 사용
@@ -81,8 +82,8 @@ document.body.appendChild(renderer.domElement); // dom 조립 또는 html 내 ca
     }
     renderer.render(scene, camera);
 
-    window.requestAnimationFrame(draw); // repaint 되기 전 인자로 들어온 함수를 호출해주는 역할 뿐.
-    // renderer.setAnimationLoop(draw);
+    // window.requestAnimationFrame(draw); // repaint 되기 전 인자로 들어온 함수를 호출해주는 역할 뿐.
+    renderer.setAnimationLoop(draw);
   }
 
   // gsap

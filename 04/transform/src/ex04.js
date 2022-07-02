@@ -40,10 +40,22 @@ export default function example() {
   // Mesh
   const geometry = new THREE.BoxGeometry(1, 1, 1);
   const material = new THREE.MeshStandardMaterial({
-    color: "seagreen",
+    color: "orange",
   });
-  const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
+
+  const group1 = new THREE.Group();
+  const sun = new THREE.Mesh(geometry, material);
+
+  const group2 = new THREE.Group();
+  // const Earth = new THREE.Mesh(geometry, material);
+  const earth = sun.clone();
+  earth.scale.set(0.3, 0.3, 0.3);
+
+  group2.position.x = 2;
+
+  group2.add(earth);
+  group1.add(sun, group2);
+  scene.add(group1);
 
   // AxesHelper
   const axesHelper = new THREE.AxesHelper(3);
@@ -58,14 +70,15 @@ export default function example() {
   // 그리기
   const clock = new THREE.Clock();
 
-  // * rotation 속성 주의할 점 - 축을 바꿔주지 않으면 우리가 상상하는 입체 움직임 각도와 불일치
-  // 마인크래프트 게임캐릭터로 생각해보면 이해가 쉽다.
-  mesh.rotation.reorder("YXZ");
-  mesh.rotation.y = THREE.MathUtils.degToRad(45);
-  mesh.rotation.x = THREE.MathUtils.degToRad(20);
+  // 회전
+  // mesh.rotation.reorder("YXZ");
+  // mesh.rotation.y = THREE.MathUtils.degToRad(45);
+  // mesh.rotation.x = THREE.MathUtils.degToRad(20);
 
   function draw() {
     const delta = clock.getDelta();
+
+    // 그룹 만들기(scene graph)
 
     renderer.render(scene, camera);
     renderer.setAnimationLoop(draw);

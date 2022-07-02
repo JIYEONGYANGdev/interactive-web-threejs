@@ -50,10 +50,16 @@ export default function example() {
   // const Earth = new THREE.Mesh(geometry, material);
   const earth = sun.clone();
   earth.scale.set(0.3, 0.3, 0.3);
-
   group2.position.x = 2;
 
-  group2.add(earth);
+  // const group3 = new THREE.Object#D();
+  const group3 = new THREE.Group();
+  const moon = earth.clone();
+  moon.scale.set(0.15, 0.15, 0.15); // 참조한 원본대비 비율임
+  moon.position.x = 0.5;
+
+  group3.add(moon);
+  group2.add(earth, group3);
   group1.add(sun, group2);
   scene.add(group1);
 
@@ -79,6 +85,9 @@ export default function example() {
     const delta = clock.getDelta();
 
     // 그룹 만들기(scene graph)
+    group1.rotation.y += delta;
+    group2.rotation.y += delta;
+    group3.rotation.y += delta;
 
     renderer.render(scene, camera);
     renderer.setAnimationLoop(draw);

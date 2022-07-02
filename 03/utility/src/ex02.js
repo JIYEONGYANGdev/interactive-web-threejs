@@ -44,12 +44,17 @@ export default function example() {
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
 
+  // Stats
+  const stats = new Stats();
+  document.body.append(stats.domElement); // 초당 프레임수(FPS) 체크
+
   // 그리기
   const clock = new THREE.Clock();
 
   function draw() {
     const time = clock.getElapsedTime();
 
+    stats.update(); // 반복실행되는 draw 함수안에서 FPS 읽도록 함
     mesh.rotation.y = time;
 
     renderer.render(scene, camera);

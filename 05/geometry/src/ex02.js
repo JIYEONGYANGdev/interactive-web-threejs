@@ -58,16 +58,25 @@ export default function example() {
     // position[i] : x좌표, postion[i+1]: y좌표, position[i+2]: z좌표
     // positionArray[i] = positionArray[i] + Math.random(); // 치우친 느낌이 날 수 있음, 0~1 실수 양수를 랜덤으로 더하니 양수방향으로만 삐죽빼죽
     // positionArray[i] = positionArray[i] + (Math.random() - 0.5); // -0.5 ~ 0.5 값을 랜덤으로 더하도록 보정
-    positionArray[i] = positionArray[i] + (Math.random() - 0.5) * 0.2; // 변화를 작게하여 부드럽게
-    positionArray[i + 1] = positionArray[i + 1] + (Math.random() - 0.5) * 0.2;
-    positionArray[i + 2] = positionArray[i + 2] + (Math.random() - 0.5) * 0.2;
+    positionArray[i] += (Math.random() - 0.5) * 0.2; // 변화를 작게하여 부드럽게
+    positionArray[i + 1] += (Math.random() - 0.5) * 0.2;
+    positionArray[i + 2] += (Math.random() - 0.5) * 0.2;
   }
 
   // 그리기
   const clock = new THREE.Clock();
 
   function draw() {
-    const delta = clock.getDelta();
+    const time = clock.getElapsedTime() * 3; // 처음 시작된 0부터 경과된 시간, 계속 증가하는 수
+
+    // 애니메이션처럼 보이기 위해 draw 함수 안에서 - x,y,z 조작
+    for (let i = 0; i < positionArray.length; i += 3) {
+      // sine graph 이용(x가 각도변화, y는 값) -1 ~ 1 사이의 값을 진동반복 : Math.sin(각도)
+      positionArray[i] += Math.sin(time) * 0.002; // getElapsedTime:경과시간 이용
+      // * 0.00이런식으로 배수하는 방법. Math.sin() 인자인 각도를 변화시키는 방법==time을 더 높이던가(* 수)
+    }
+
+    geometry.attributes.position.needsUpdate = true; // * update 설정해줘야 animation처럼 동작(보임)
 
     renderer.render(scene, camera);
     renderer.setAnimationLoop(draw);

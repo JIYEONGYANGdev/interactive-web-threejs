@@ -49,8 +49,19 @@ export default function example() {
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
 
-  console.log(geometry); // attributes: { position, uv, ..} // position: vertex 위치를 Float32Array형식으로 담고 있음
-  console.log(geometry.attributes.position.array); // vertex의 3배 값. x,y,z 3차원 좌표이니까.
+  // console.log(geometry); // attributes: { position, uv, ..} // position: vertex 위치를 Float32Array형식으로 담고 있음
+  // console.log(geometry.attributes.position.array); // vertex의 3배 값. x,y,z 3차원 좌표이니까.
+  const positionArray = geometry.attributes.position.array;
+  for (let i = 0; i < positionArray.length; i += 3) {
+    // 정점(Vertex) 한개의 x,y,z좌표를 랜덤으로 조정
+    // 한 좌표(array의 3개 요소 그룹)에 대해 조작해야. (i+=3)
+    // position[i] : x좌표, postion[i+1]: y좌표, position[i+2]: z좌표
+    // positionArray[i] = positionArray[i] + Math.random(); // 치우친 느낌이 날 수 있음, 0~1 실수 양수를 랜덤으로 더하니 양수방향으로만 삐죽빼죽
+    // positionArray[i] = positionArray[i] + (Math.random() - 0.5); // -0.5 ~ 0.5 값을 랜덤으로 더하도록 보정
+    positionArray[i] = positionArray[i] + (Math.random() - 0.5) * 0.2; // 변화를 작게하여 부드럽게
+    positionArray[i + 1] = positionArray[i + 1] + (Math.random() - 0.5) * 0.2;
+    positionArray[i + 2] = positionArray[i + 2] + (Math.random() - 0.5) * 0.2;
+  }
 
   // 그리기
   const clock = new THREE.Clock();

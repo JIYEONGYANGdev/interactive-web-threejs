@@ -1,66 +1,73 @@
-import * as THREE from 'three';
+import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 // ----- 주제: Geometry 기본
 
 export default function example() {
-	// Renderer
-	const canvas = document.querySelector('#three-canvas');
-	const renderer = new THREE.WebGLRenderer({
-		canvas,
-		antialias: true
-	});
-	renderer.setSize(window.innerWidth, window.innerHeight);
-	renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
+  // Renderer
+  const canvas = document.querySelector("#three-canvas");
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    antialias: true,
+  });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1);
 
-	// Scene
-	const scene = new THREE.Scene();
+  // Scene
+  const scene = new THREE.Scene();
 
-	// Camera
-	const camera = new THREE.PerspectiveCamera(
-		75,
-		window.innerWidth / window.innerHeight,
-		0.1,
-		1000
-	);
-	camera.position.z = 4;
-	scene.add(camera);
+  // Camera
+  const camera = new THREE.PerspectiveCamera(
+    75,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+  );
+  camera.position.z = 4;
+  scene.add(camera);
 
-	// Light
-	const ambientLight = new THREE.AmbientLight('white', 0.5);
-	scene.add(ambientLight);
+  // Light
+  const ambientLight = new THREE.AmbientLight("white", 0.5);
+  scene.add(ambientLight);
 
-	const directionalLight = new THREE.DirectionalLight('white', 1);
-	directionalLight.position.x = 1;
-	directionalLight.position.z = 2;
-	scene.add(directionalLight);
+  const directionalLight = new THREE.DirectionalLight("white", 1);
+  directionalLight.position.x = 1;
+  directionalLight.position.z = 2;
+  scene.add(directionalLight);
 
-	// Mesh
-	const geometry = new THREE.BoxGeometry(1, 1, 1);
-	const material = new THREE.MeshStandardMaterial({
-		color: 'hotpink'
-	});
-	const mesh = new THREE.Mesh(geometry, material);
-	scene.add(mesh);
+  // Controls
+  const controls = new OrbitControls(camera, renderer.domElement); // arguments(camera, canvas)
 
-	// 그리기
-	const clock = new THREE.Clock();
+  // Mesh
+  const geometry = new THREE.BoxGeometry(1, 1, 1, 16, 16, 16); // * widthSegmens, ... (면의 Unit을 더 쪼갤 수 있음)
+  // * segment 속성 - vertex 가 추가가 된 것이므로, 좌표를 조정하여 geometry를 변형할 수 있음
+  const material = new THREE.MeshStandardMaterial({
+    color: "hotpink",
+    wireframe: true, // 뼈대, mesh 안으로 들어가는 걸 확인할 수 있음
+    // side: THREE.DoubleSide, // mesh 내부에서도 안쪽면이 보임
+  });
+  const mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
 
-	function draw() {
-		const delta = clock.getDelta();
+  // 그리기
+  const clock = new THREE.Clock();
 
-		renderer.render(scene, camera);
-		renderer.setAnimationLoop(draw);
-	}
+  function draw() {
+    const delta = clock.getDelta();
 
-	function setSize() {
-		camera.aspect = window.innerWidth / window.innerHeight;
-		camera.updateProjectionMatrix();
-		renderer.setSize(window.innerWidth, window.innerHeight);
-		renderer.render(scene, camera);
-	}
+    renderer.render(scene, camera);
+    renderer.setAnimationLoop(draw);
+  }
 
-	// 이벤트
-	window.addEventListener('resize', setSize);
+  function setSize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.render(scene, camera);
+  }
 
-	draw();
+  // 이벤트
+  window.addEventListener("resize", setSize);
+
+  draw();
 }

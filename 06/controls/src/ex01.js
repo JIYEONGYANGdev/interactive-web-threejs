@@ -38,6 +38,16 @@ export default function example() {
 
   // Controls
   const controls = new OrbitControls(camera, renderer.domElement); // 2nd argument: canvas object
+  controls.enableDamping = true; // control을 부드럽게해주는 속성(옵션) - 역시나 update해줘야 함(draw 함수 내)
+  // controls.enableZoom = false; // zoom 막음
+  controls.maxDistance = 10; // 최대 거리 범위 한정 가능
+  controls.minDistance = 2; // 최대 거리 범위 한정 가능
+  controls.maxPolarAngle = Math.PI / 4; // control로 돌려볼 수 있는 각도, 45도
+  // controls.minPolarAngle = THREE.MathUtils.degToRad(135);
+
+  controls.target.set(2, 2, 2); // 컨트롤 기준점 설정, argument: (x,y,z 좌표)
+  controls.autoRotate = true; // 컨트롤의 rotate임. 애니메이션이 아님!
+  controls.autoRotateSpeed = 19;
 
   // Mesh - 랜덤한 컬러(material), 랜덤한 위치로 다수 생성
   const geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -67,6 +77,9 @@ export default function example() {
 
   function draw() {
     const delta = clock.getDelta();
+
+    // * 컨트롤이 부드럽게 하는 enableDamping을 매번 호출되도록 함
+    controls.update();
 
     renderer.render(scene, camera);
     renderer.setAnimationLoop(draw);

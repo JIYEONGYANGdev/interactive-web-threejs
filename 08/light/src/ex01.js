@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import dat from "dat.gui";
 
-// ----- 주제: Light 기본 사용법, light Helper
+// ----- 주제: Light animation
 
 export default function example() {
   // Renderer
@@ -32,7 +32,7 @@ export default function example() {
   const ambientLight = new THREE.AmbientLight("white", 0.5); // AmbientLight = 은은한 조명으로 색깔구분이 되도록 하는 정도, 다른 조명과 함께 쓰는 식임.  두번째 인자는 intensity,
   scene.add(ambientLight);
 
-  const light = new THREE.DirectionalLight("white", 0.5); // DirectionalLight = 태양광 같은
+  const light = new THREE.DirectionalLight("pink", 0.5); // DirectionalLight = 태양광 같은
   light.position.y = 3;
   scene.add(light);
 
@@ -49,7 +49,7 @@ export default function example() {
   const sphereGeometry = new THREE.SphereGeometry(0.7, 16, 16);
 
   // Material
-  const material1 = new THREE.MeshStandardMaterial({ color: "seagreen" });
+  const material1 = new THREE.MeshStandardMaterial({ color: "white" });
   const material2 = new THREE.MeshStandardMaterial({ color: "royalblue" });
   const material3 = new THREE.MeshStandardMaterial({ color: "gold" });
 
@@ -83,7 +83,12 @@ export default function example() {
   const clock = new THREE.Clock();
 
   function draw() {
-    const delta = clock.getDelta();
+    // const delta = clock.getDelta();
+    const time = clock.getElapsedTime();
+
+    // * light animation - cos & sin 이용해서 xz 등 2차원 평면 상 원 모양으로 회전 만들기
+    light.position.x = Math.cos(time) * 5;
+    light.position.z = Math.sin(time) * 5;
 
     renderer.render(scene, camera);
     renderer.setAnimationLoop(draw);

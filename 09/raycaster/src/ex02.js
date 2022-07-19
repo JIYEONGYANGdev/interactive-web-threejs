@@ -66,8 +66,8 @@ export default function example() {
   function draw() {
     const time = clock.getElapsedTime();
 
-    boxMesh.position.y = Math.sin(time) * 2;
-    toursMesh.position.y = Math.cos(time) * 2;
+    // boxMesh.position.y = Math.sin(time) * 2;
+    // toursMesh.position.y = Math.cos(time) * 2;
 
     boxMesh.material.color.set("plum");
     toursMesh.material.color.set("lime");
@@ -77,16 +77,17 @@ export default function example() {
   }
 
   function checkIntersects() {
+    if (isMouseMovedOverPixels) return;
     // raycaster set 메소드 조금 다름
     raycaster.setFromCamera(mouse, camera); // origin이 camera에 있다고 생각 args: (mouse, camera)
 
     const intersects = raycaster.intersectObjects(meshes);
     for (const item of intersects) {
-      console.log(item.object.name);
+      console.log(item.object.name); // * 이 경우 마우스를 오랫동안 클릭하면 - 카메라 컨트롤에 따라 클릭으로 감지됨
       break; // 처음 클릭(광선)된 아이템 출력 후 break
     }
     // 또는 index 이용하여 요소에 접근해도 되고.
-    if (intersects[0]) console.log(intersects[0]);
+    // if (intersects[0]) console.log(intersects[0]);
   }
 
   function setSize() {
@@ -106,6 +107,30 @@ export default function example() {
 
     checkIntersects();
     // console.log(mouse);
+  });
+
+  // * mouse event 이용해서 drag가 일정 pixel 이상 일어나면 raycasting 비활성화
+  let isMouseMovedOverPixels; // boolean
+  let clickStartX;
+  let clickStartY;
+
+  canvas.addEventListener("mousedown", (e) => {
+    clickStartX = e.clientX;
+    clickStartY = e.clientY;
+  });
+
+  // * 마우스 클릭 떼었을 때
+  canvas.addEventListener("mouseup", (e) => {
+    const distanceX = Math.abs(e.clientX - clickStartX);
+    const distanceY = Math.abs(e.clientY - clickStartY);
+
+    // console.log(distanceX, distanceY);
+
+    if (distanceX > 20 || distanceY > 20) {
+      isMouseMovedOverPixels = true;
+    } else {
+      isMouseMovedOverPixels = false;
+    }
   });
 
   draw();

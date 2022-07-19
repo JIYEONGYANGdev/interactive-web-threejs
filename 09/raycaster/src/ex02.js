@@ -69,8 +69,8 @@ export default function example() {
     // boxMesh.position.y = Math.sin(time) * 2;
     // toursMesh.position.y = Math.cos(time) * 2;
 
-    boxMesh.material.color.set("plum");
-    toursMesh.material.color.set("lime");
+    // boxMesh.material.color.set("plum");
+    // toursMesh.material.color.set("lime");
 
     renderer.render(scene, camera);
     renderer.setAnimationLoop(draw);
@@ -84,6 +84,9 @@ export default function example() {
     const intersects = raycaster.intersectObjects(meshes);
     for (const item of intersects) {
       console.log(item.object.name); // * 이 경우 마우스를 오랫동안 클릭하면 - 카메라 컨트롤에 따라 클릭으로 감지됨
+
+      item.object.material.color.set("yellow");
+
       break; // 처음 클릭(광선)된 아이템 출력 후 break
     }
     // 또는 index 이용하여 요소에 접근해도 되고.
@@ -113,10 +116,13 @@ export default function example() {
   let isMouseMovedOverPixels; // boolean
   let clickStartX;
   let clickStartY;
+  let clickStartTime;
 
   canvas.addEventListener("mousedown", (e) => {
     clickStartX = e.clientX;
     clickStartY = e.clientY;
+
+    clickStartTime = Date.now();
   });
 
   // * 마우스 클릭 떼었을 때
@@ -126,7 +132,9 @@ export default function example() {
 
     // console.log(distanceX, distanceY);
 
-    if (distanceX > 20 || distanceY > 20) {
+    const elapsedTimeGap = Date.now() - clickStartTime;
+
+    if (distanceX > 20 || distanceY > 20 || elapsedTimeGap > 1000) {
       isMouseMovedOverPixels = true;
     } else {
       isMouseMovedOverPixels = false;

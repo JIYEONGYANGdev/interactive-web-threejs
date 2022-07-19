@@ -55,7 +55,7 @@ export default function example() {
 
   const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
   const boxMaterial = new THREE.MeshStandardMaterial({ color: "plum" });
-  const boxMesh = new THREE.Mesh(boxGeometry, boxGeometry);
+  const boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
 
   const toursGeometry = new THREE.TorusGeometry(2, 0.5, 16, 100);
   const toursMaterial = new THREE.MeshStandardMaterial({ color: "lime" });

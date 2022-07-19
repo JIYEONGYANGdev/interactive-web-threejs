@@ -76,6 +76,19 @@ export default function example() {
     renderer.setAnimationLoop(draw);
   }
 
+  function checkIntersects() {
+    // raycaster set 메소드 조금 다름
+    raycaster.setFromCamera(mouse, camera); // origin이 camera에 있다고 생각 args: (mouse, camera)
+
+    const intersects = raycaster.intersectObjects(meshes);
+    for (const item of intersects) {
+      console.log(item.object.name);
+      break; // 처음 클릭(광선)된 아이템 출력 후 break
+    }
+    // 또는 index 이용하여 요소에 접근해도 되고.
+    if (intersects[0]) console.log(intersects[0]);
+  }
+
   function setSize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
@@ -90,7 +103,9 @@ export default function example() {
     // 2차원 좌표를 3차원 좌표로. 정중앙이 (0,0,0) 이고, y방향은 반전
     mouse.x = (e.clientX / canvas.clientWidth) * 2 - 1;
     mouse.y = -((e.clientY / canvas.clientHeight) * 2 - 1);
-    console.log(mouse);
+
+    checkIntersects();
+    // console.log(mouse);
   });
 
   draw();

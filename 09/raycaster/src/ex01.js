@@ -75,6 +75,14 @@ export default function example() {
 
   function draw() {
     const delta = clock.getDelta();
+    // * 움직임을 넣어 광선에 맞을 때만 color속성 변경
+    const time = clock.getElapsedTime();
+
+    boxMesh.position.y = Math.sin(time) * 2;
+    toursMesh.position.y = Math.cos(time) * 2;
+
+    boxMesh.material.color.set("plum");
+    toursMesh.material.color.set("lime");
 
     // * 실제 광선 만들기 - 시작점과 방향
     const origin = new THREE.Vector3(0, 0, 100);
@@ -83,8 +91,7 @@ export default function example() {
 
     const intersects = raycaster.intersectObjects(meshes);
     intersects.forEach((item) => {
-      console.log(item);
-      item.object.material.color.set("red");
+      item.object.material.color.set("yellow");
     });
 
     renderer.render(scene, camera);

@@ -52,6 +52,16 @@ export default function example() {
 
   scene.add(guide);
 
+  const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
+  const boxMaterial = new THREE.MeshStandardMaterial({ color: "plum" });
+  const boxMesh = new THREE.Mesh(boxGeometry, boxGeometry);
+
+  const toursGeometry = new THREE.TorusGeometry(2, 0.5, 16, 100);
+  const toursMaterial = new THREE.MeshStandardMaterial({ color: "lime" });
+  const toursMesh = new THREE.Mesh(toursGeometry, toursMaterial);
+
+  scene.add(boxMesh, toursMesh);
+
   // 그리기
   const clock = new THREE.Clock();
 

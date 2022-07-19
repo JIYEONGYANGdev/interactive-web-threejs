@@ -86,7 +86,10 @@ export default function example() {
 
     // * 실제 광선 만들기 - 시작점과 방향
     const origin = new THREE.Vector3(0, 0, 100);
-    const direction = new THREE.Vector3(0, 0, -1);
+    const direction = new THREE.Vector3(0, 0, -100);
+    direction.normalize(); // '100'이라는 값 방향 정교화
+    // console.log(direction.lenght())// 1 로 정교화되는 것 확인 가능. 방향은 '1' 로 주면 됨.
+
     raycaster.set(origin, direction);
 
     const intersects = raycaster.intersectObjects(meshes);

@@ -63,11 +63,24 @@ export default function example() {
 
   scene.add(boxMesh, toursMesh);
 
+  const meshes = [boxMesh, toursMesh];
+
+  // * raycaster 만들기
+  const raycaster = new THREE.Raycaster();
+
   // 그리기
   const clock = new THREE.Clock();
 
   function draw() {
     const delta = clock.getDelta();
+
+    // * 실제 광선 만들기 - 시작점과 방향
+    const origin = new THREE.Vector3(0, 0, 100);
+    const direction = new THREE.Vector3(0, 0, -1);
+    raycaster.set(origin, direction);
+
+    // * 광선에 맞은 mesh가 있는지 - 배열([{면}, {뒷면}])
+    console.log(raycaster.intersectObjects(meshes));
 
     renderer.render(scene, camera);
     renderer.setAnimationLoop(draw);

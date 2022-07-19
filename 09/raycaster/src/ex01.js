@@ -22,6 +22,7 @@ export default function example() {
     0.1,
     1000
   );
+  camera.position.x = 5;
   camera.position.y = 1.5;
   camera.position.z = 4;
   scene.add(camera);

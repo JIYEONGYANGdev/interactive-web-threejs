@@ -56,10 +56,12 @@ export default function example() {
   const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
   const boxMaterial = new THREE.MeshStandardMaterial({ color: "plum" });
   const boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
+  boxMesh.name = "box";
 
   const toursGeometry = new THREE.TorusGeometry(2, 0.5, 16, 100);
   const toursMaterial = new THREE.MeshStandardMaterial({ color: "lime" });
   const toursMesh = new THREE.Mesh(toursGeometry, toursMaterial);
+  toursMesh.name = "tours";
 
   scene.add(boxMesh, toursMesh);
 
@@ -79,8 +81,11 @@ export default function example() {
     const direction = new THREE.Vector3(0, 0, -1);
     raycaster.set(origin, direction);
 
-    // * 광선에 맞은 mesh가 있는지 - 배열([{면}, {뒷면}])
-    console.log(raycaster.intersectObjects(meshes));
+    const intersects = raycaster.intersectObjects(meshes);
+    intersects.forEach((item) => {
+      console.log(item);
+      item.object.material.color.set("red");
+    });
 
     renderer.render(scene, camera);
     renderer.setAnimationLoop(draw);

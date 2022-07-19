@@ -1,5 +1,5 @@
 import * as THREE from "three";
-
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 // ----- 주제: Raycaster(클릭 감지), 특정 광선(ray)에 맞은 Mesh 판별하기
 
 export default function example() {
@@ -37,6 +37,7 @@ export default function example() {
   scene.add(directionalLight);
 
   // Controls
+  const controls = new OrbitControls(camera, renderer.domElement);
 
   // Mesh
   // * raycaster의 광선은 보이지 않으므로, 동일한 위치에 geometry를 이용해서 광선mesh를 만들어 눈에 보이도록 구현

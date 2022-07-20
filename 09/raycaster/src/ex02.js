@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { PreventDragClick } from "./PreventDragClick";
 
 // ----- 주제: 클릭한 Mesh 감지
 
@@ -77,7 +78,8 @@ export default function example() {
   }
 
   function checkIntersects() {
-    if (isMouseMovedOverPixels) return;
+    console.log(preventDragClick.isMouseMovedOverPixels);
+    if (preventDragClick.isMouseMovedOverPixels) return;
     // raycaster set 메소드 조금 다름
     raycaster.setFromCamera(mouse, camera); // origin이 camera에 있다고 생각 args: (mouse, camera)
 
@@ -112,34 +114,7 @@ export default function example() {
     // console.log(mouse);
   });
 
-  // * mouse event 이용해서 drag가 일정 pixel 이상 일어나면 raycasting 비활성화
-  let isMouseMovedOverPixels; // boolean
-  let clickStartX;
-  let clickStartY;
-  let clickStartTime;
-
-  canvas.addEventListener("mousedown", (e) => {
-    clickStartX = e.clientX;
-    clickStartY = e.clientY;
-
-    clickStartTime = Date.now();
-  });
-
-  // * 마우스 클릭 떼었을 때
-  canvas.addEventListener("mouseup", (e) => {
-    const distanceX = Math.abs(e.clientX - clickStartX);
-    const distanceY = Math.abs(e.clientY - clickStartY);
-
-    // console.log(distanceX, distanceY);
-
-    const elapsedTimeGap = Date.now() - clickStartTime;
-
-    if (distanceX > 20 || distanceY > 20 || elapsedTimeGap > 1000) {
-      isMouseMovedOverPixels = true;
-    } else {
-      isMouseMovedOverPixels = false;
-    }
-  });
+  const preventDragClick = new PreventDragClick(canvas);
 
   draw();
 }
